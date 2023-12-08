@@ -26,3 +26,35 @@ Widget homePage() {
     ),
   );
 }
+
+Widget futureHomePage(Future<ProductList> futureProductList) {
+  return Padding(
+    padding: const EdgeInsets.all(16),
+    child: Column(
+      children: <Widget>[
+        dividerLarge('Nowości'),
+        Expanded(
+          child: FutureBuilder<ProductList>(
+            future: futureProductList,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Product> productList = snapshot.data!.products;
+                var length = productList.length;
+                return shortList(
+                  productList,
+                  length - 10,
+                  length,
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ),
+      ],
+    ),
+  );
+}

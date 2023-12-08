@@ -55,7 +55,43 @@ Widget dividerMediumWithIcons(String title) {
             icon: iconNext, // Replace with your desired icon
           ),
           Container(
-            padding: const EdgeInsets.only(left: 200, top: 16, bottom: 20),
+            padding: const EdgeInsets.only(left: 180, top: 16, bottom: 20),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text(
+                title,
+                style: myFontTitleMedium,
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget dividerMediumWithIconsDynamic(
+  VoidCallback onPreviousPressed,
+  VoidCallback onNextPressed,
+  String title,
+  int state,
+) {
+  return Column(
+    children: [
+      const Divider(),
+      Row(
+        children: [
+          IconButton(
+              onPressed: state == 0 ? null : onPreviousPressed,
+              icon: iconPrev,
+              disabledColor: Colors.grey),
+          IconButton(
+              onPressed: state == 2 ? null : onNextPressed,
+              icon: iconNext,
+              disabledColor: Colors.grey),
+          Container(
+            padding: const EdgeInsets.only(left: 190, top: 16, bottom: 20),
             child: Align(
               alignment: AlignmentDirectional.centerEnd,
               child: Text(

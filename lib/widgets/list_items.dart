@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:dice_and_tiles/resources/icons.dart';
+import 'package:dice_and_tiles/post/product.dart';
 
-const Widget photoFlutter = FlutterLogo(size: 56.0);
+const Widget photoFlutter = FlutterLogo(size: 64.0);
+
+Widget productCard(Product product) {
+  Image image = Image.network(product.thumbnailURL);
+  return cardMain(photo: image, title: product.name);
+}
 
 Widget cardMain({required Widget photo, required String title}) {
   return TextButton(
     onPressed: () => print('Show game details'),
     child: ListTile(
-      leading: photo,
+      leading: SizedBox(
+        width: 64.0,
+        height: 64.0,
+        child: photo,
+      ),
       title: Text(title),
       subtitle: const Text(''),
     ),
