@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DiceAndTiles Demo',
+      title: 'DiceAndTiles',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -30,58 +30,15 @@ class MainPages extends StatefulWidget {
   final String title;
 
   @override
-  State<MainPages> createState() => _MainPagesState2();
+  State<MainPages> createState() => _MainPagesState();
 }
 
 class _MainPagesState extends State<MainPages> {
   int currentPageIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: topBar(context),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: iconHome,
-            icon: iconHomeOutline,
-            label: 'Startowa',
-          ),
-          NavigationDestination(
-            selectedIcon: iconList,
-            icon: iconListOutline,
-            label: 'Lista gier',
-          ),
-          NavigationDestination(
-            selectedIcon: iconCollection,
-            icon: iconCollectionOutline,
-            label: 'Kolekcja',
-          ),
-        ],
-      ),
-      body: <Widget>[
-        homePage(),
-        listPage(),
-        collectionPage(),
-      ][currentPageIndex],
-    );
-  }
-}
-
-class _MainPagesState2 extends State<MainPages> {
-  int currentPageIndex = 0;
-  late Future<ProductList> futureProductList;
-
-  @override
   void initState() {
     super.initState();
-    futureProductList = fetchProductList();
   }
 
   @override
@@ -114,8 +71,8 @@ class _MainPagesState2 extends State<MainPages> {
         ],
       ),
       body: <Widget>[
-        futureHomePage(futureProductList),
-        futureListPage(futureProductList),
+        const HomePage(),
+        const ListPage(),
         collectionPage(),
       ][currentPageIndex],
     );

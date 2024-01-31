@@ -1,138 +1,98 @@
 import 'package:dice_and_tiles/dependecies.dart';
 
-Widget listPage() {
-  return Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      children: <Widget>[
-        //dividerMedium('1 z 20'),
-        dividerMediumWithIcons('1 z 20'),
-        Expanded(
-          child: ListView(
-            children: <Widget>[
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 1',
-                  icon: iconFaceHappy),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 2',
-                  icon: iconFaceSad),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 3',
-                  icon: iconFaceHappy),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 4',
-                  icon: iconFaceNeutral),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 5',
-                  icon: iconFaceHappy),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 6',
-                  icon: iconFaceHappy),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 7',
-                  icon: iconFaceSad),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 8',
-                  icon: iconFaceSad),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 9',
-                  icon: iconFaceNeutral),
-              cardOpinion(
-                  photo: photoFlutter,
-                  title: 'Gra planszowa 10',
-                  icon: iconFaceHappy),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-class FutureListPage extends StatefulWidget {
-  final Future<ProductList> futureProductList;
-  int page;
-  int state = 0;
-
-  FutureListPage({required this.futureProductList, required this.page});
+class ListPage extends StatefulWidget {
+  const ListPage({super.key});
 
   @override
-  _FutureListPageState createState() => _FutureListPageState();
+  _ListPageState createState() => _ListPageState();
 }
 
-class _FutureListPageState extends State<FutureListPage> {
-  void changePage(int newPage, int allPages) {
-    setState(
-      () {
-        widget.page = newPage;
-        if (widget.page == 1) {
-          widget.state = 0;
-        } else if (widget.page == allPages) {
-          widget.state = 2;
-        } else {
-          widget.state = 1;
-        }
-      },
-    );
+class _ListPageState extends State<ListPage> {
+  ProductList? _productList;
+  int? _pageCount;
+  String? _nextPage;
+  String? _previousPage;
+
+  int _page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialLoadProducts();
+  }
+
+  Future<void> _initialLoadProducts() async {
+    try {
+      final apiResponse = await ApiService().fetchProducts();
+      setState(() {
+        _productList = apiResponse[0];
+        int count = apiResponse[1];
+        _pageCount = (count / 10).round();
+        _nextPage = apiResponse[2];
+        _previousPage = apiResponse[3];
+      });
+    } catch (e) {
+      // Handle the error or show an error message
+    }
+  }
+
+  Future<void> _loadProductsFromUrl(String apiUrl) async {
+    try {
+      final apiResponse =
+          await ApiService().fetchProductsFromUrl(apiUrl: apiUrl);
+      setState(() {
+        _productList = apiResponse[0];
+        _nextPage = apiResponse[2];
+        _previousPage = apiResponse[3];
+      });
+    } catch (e) {
+      // Handle the error or show an error message
+    }
+  }
+
+  void _goToPreviousPage() {
+    try {
+      _loadProductsFromUrl(_previousPage!);
+      setState(() {
+        _page = _page - 1;
+      });
+    } catch (e) {
+      // Handle the error or show an error message
+    }
+  }
+
+  void _goToNextPage() {
+    try {
+      _loadProductsFromUrl(_nextPage!);
+      setState(() {
+        _page = _page + 1;
+      });
+    } catch (e) {
+      // Handle the error or show an error message
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Expanded(
-        child: FutureBuilder<ProductList>(
-          future: widget.futureProductList,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Product> productList = snapshot.data!.products;
-              var allPages = (productList.length / 10).round();
-              int lastGameOnPageId = 10 + (widget.page - 1) * 10;
-              if (lastGameOnPageId > productList.length) {
-                lastGameOnPageId = productList.length;
-              }
-              return Column(
+    return Scaffold(
+      body: _productList == null
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
                 children: <Widget>[
                   dividerMediumWithIconsDynamic(
-                    () => changePage(widget.page - 1, allPages),
-                    () => changePage(widget.page + 1, allPages),
-                    '${widget.page} z $allPages',
-                    widget.state,
-                  ),
+                      () => _goToPreviousPage(),
+                      () => _goToNextPage(),
+                      '$_page z $_pageCount',
+                      _page,
+                      _pageCount!),
                   Expanded(
-                    child: shortList(
-                      productList,
-                      1 + (widget.page - 1) * 10,
-                      lastGameOnPageId,
-                    ),
+                    child: buildOpinionProductList(_productList!.products),
                   ),
                 ],
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
-      ),
+              ),
+            ),
     );
   }
-}
-
-Widget futureListPage(Future<ProductList> futureProductList) {
-  return FutureListPage(
-    futureProductList: futureProductList,
-    page: 1,
-  );
 }

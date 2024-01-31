@@ -1,34 +1,30 @@
 class Product {
   final int id;
-  final int bggid;
+  final String slug;
   final String name;
-  final String description;
-  final int minPlayers;
-  final int maxPlayers;
-  final String imageURL;
-  final String thumbnailURL;
+  final String thumbnail;
+  final double positiveRate;
 
   Product(
-      {required this.id,
-      required this.bggid,
+      {required this.slug,
+      required this.id,
       required this.name,
-      required this.description,
-      required this.minPlayers,
-      required this.maxPlayers,
-      required this.imageURL,
-      required this.thumbnailURL});
+      required this.thumbnail,
+      required this.positiveRate});
 
-  factory Product.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(Map<String, dynamic> parsedJson) {
+    int upvotes = parsedJson['upvotes'];
+    int downvotes = parsedJson['downvotes'];
+    double rate = (upvotes + downvotes != 0)
+        ? (upvotes / (upvotes + downvotes) * 100)
+        : 50;
+
     return Product(
-      id: json['id'],
-      bggid: json['bggid'],
-      name: json['name'],
-      description: json['description'],
-      //category
-      minPlayers: json['min_players'],
-      maxPlayers: json['max_players'],
-      imageURL: json['image_url'],
-      thumbnailURL: json['thumbnail_url'],
+      id: parsedJson['id'],
+      slug: parsedJson['slug'],
+      name: parsedJson['name'],
+      thumbnail: parsedJson['thumbnail'],
+      positiveRate: rate,
     );
   }
 }

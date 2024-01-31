@@ -5,9 +5,9 @@ class ProductList {
 
   ProductList({required this.products});
 
-  factory ProductList.fromJson(List<dynamic> json) {
-    //var list = json['results'] as List;
-    List<Product> resultsList = json.map((i) => Product.fromJson(i)).toList();
+  factory ProductList.fromJson(Map<String, dynamic> parsedJson) {
+    var list = parsedJson['results'] as List;
+    List<Product> resultsList = list.map((i) => Product.fromJson(i)).toList();
 
     return ProductList(
       products: resultsList,

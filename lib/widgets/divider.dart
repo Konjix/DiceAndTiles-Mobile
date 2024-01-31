@@ -71,7 +71,39 @@ Widget dividerMediumWithIcons(String title) {
   );
 }
 
-Widget dividerMediumWithIconsDynamic(
+Widget dividerMediumWithIconsDynamic(VoidCallback onPreviousPressed,
+    VoidCallback onNextPressed, String title, int currentPage, int maxPage) {
+  return Column(
+    children: [
+      const Divider(),
+      Row(
+        children: [
+          IconButton(
+              onPressed: currentPage == 1 ? null : onPreviousPressed,
+              icon: iconPrev,
+              disabledColor: Colors.grey),
+          IconButton(
+              onPressed: currentPage == maxPage ? null : onNextPressed,
+              icon: iconNext,
+              disabledColor: Colors.grey),
+          Container(
+            padding: const EdgeInsets.only(left: 190, top: 16, bottom: 20),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text(
+                title,
+                style: myFontTitleMedium,
+                textAlign: TextAlign.start,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget dividerMediumWithIconsDynamic2(
   VoidCallback onPreviousPressed,
   VoidCallback onNextPressed,
   String title,

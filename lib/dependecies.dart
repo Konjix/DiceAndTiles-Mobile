@@ -2,6 +2,7 @@
 export 'package:flutter/material.dart';
 export 'dart:async';
 export 'dart:convert';
+export 'package:dio/dio.dart';
 
 // External packages
 // Resources
@@ -15,7 +16,8 @@ export 'widgets/text_field.dart';
 export 'widgets/top_bar.dart';
 export 'widgets/dialogs.dart';
 
-export 'post/build_ten_item_list.dart';
-export 'post/fetch_product_list.dart';
+export 'post/build_product_list.dart';
 export 'post/product_list.dart';
 export 'post/product.dart';
+export 'post/product_details.dart';
+export 'post/fetch_products.dart';

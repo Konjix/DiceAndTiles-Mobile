@@ -21,8 +21,9 @@ AppBar topBar(BuildContext context) {
     title: const Text(
       'Dice&Tiles',
       style: myFontHeadlineMedium,
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
     ),
+    centerTitle: true,
   );
 }
 

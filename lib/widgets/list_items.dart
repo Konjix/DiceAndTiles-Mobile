@@ -4,33 +4,39 @@ import 'package:dice_and_tiles/post/product.dart';
 
 const Widget photoFlutter = FlutterLogo(size: 64.0);
 
-Widget productCard(Product product) {
-  Image image = Image.network(product.thumbnailURL);
-  return cardMain(photo: image, title: product.name);
-}
-
-Widget cardMain({required Widget photo, required String title}) {
+Widget cardMain(Product product) {
+  Image image = Image.network(product.thumbnail);
   return TextButton(
     onPressed: () => print('Show game details'),
     child: ListTile(
       leading: SizedBox(
         width: 64.0,
         height: 64.0,
-        child: photo,
+        child: image,
       ),
-      title: Text(title),
+      title: Text(product.name),
       subtitle: const Text(''),
     ),
   );
 }
 
-Widget cardOpinion(
-    {required Widget photo, required String title, required Widget icon}) {
+Widget cardOpinion(Product product) {
+  Widget icon = iconFaceSad;
+  if (product.positiveRate >= 70) {
+    icon = iconFaceHappy;
+  } else if (product.positiveRate > 40) {
+    icon = iconFaceNeutral;
+  }
+  Image image = Image.network(product.thumbnail);
   return TextButton(
     onPressed: () => print('Show game details'),
     child: ListTile(
-      leading: photo,
-      title: Text(title),
+      leading: SizedBox(
+        width: 64.0,
+        height: 64.0,
+        child: image,
+      ),
+      title: Text(product.name),
       subtitle: const Text(''),
       trailing: icon,
     ),
