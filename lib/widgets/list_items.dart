@@ -1,13 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:dice_and_tiles/resources/icons.dart';
-import 'package:dice_and_tiles/post/product.dart';
+import '../dependecies.dart';
 
 const Widget photoFlutter = FlutterLogo(size: 64.0);
 
-Widget cardMain(Product product) {
+Widget cardMain(Product product, BuildContext context) {
   Image image = Image.network(product.thumbnail);
   return TextButton(
-    onPressed: () => print('Show game details'),
+    onPressed: () {
+      (
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => GameDetailsScreen(productInfo: product)),
+        ),
+      );
+    },
     child: ListTile(
       leading: SizedBox(
         width: 64.0,
@@ -20,7 +26,7 @@ Widget cardMain(Product product) {
   );
 }
 
-Widget cardOpinion(Product product) {
+Widget cardOpinion(Product product, BuildContext context) {
   Widget icon = iconFaceSad;
   if (product.positiveRate >= 70) {
     icon = iconFaceHappy;
@@ -29,7 +35,15 @@ Widget cardOpinion(Product product) {
   }
   Image image = Image.network(product.thumbnail);
   return TextButton(
-    onPressed: () => print('Show game details'),
+    onPressed: () {
+      (
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => GameDetailsScreen(productInfo: product)),
+        ),
+      );
+    },
     child: ListTile(
       leading: SizedBox(
         width: 64.0,

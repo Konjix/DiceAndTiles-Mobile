@@ -88,7 +88,8 @@ class _ListPageState extends State<ListPage> {
                       _page,
                       _pageCount!),
                   Expanded(
-                    child: buildOpinionProductList(_productList!.products),
+                    child: buildOpinionProductList(
+                        _productList!.products, context),
                   ),
                 ],
               ),

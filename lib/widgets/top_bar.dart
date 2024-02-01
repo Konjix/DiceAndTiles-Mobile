@@ -1,7 +1,8 @@
-import 'package:dice_and_tiles/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dice_and_tiles/resources/icons.dart';
 import 'package:dice_and_tiles/resources/text_styles.dart';
+
+import 'package:dice_and_tiles/screens/profile_screen.dart';
 
 AppBar topBar(BuildContext context) {
   return AppBar(
@@ -38,8 +39,9 @@ AppBar topBarBack(String text, BuildContext context) {
     title: Text(
       text,
       style: myFontHeadlineMedium,
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
     ),
+    centerTitle: true,
   );
 }
 

@@ -59,7 +59,7 @@ class ApiService {
 
   Future<ProductDetails> fetchProductDetails(var productName) async {
     try {
-      final response = await _dio.get('$productApiUrl$productName');
+      final response = await _dio.get('$productApiUrl$productName/');
       return ProductDetails.fromJson(response.data);
     } on DioException catch (e) {
       // Handle error

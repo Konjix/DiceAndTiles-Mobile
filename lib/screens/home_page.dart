@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   dividerLarge('Nowości'),
                   Expanded(
-                    child: buildProductList(_productList!.products),
+                    child: buildProductList(_productList!.products, context),
                   ),
                 ],
               ),

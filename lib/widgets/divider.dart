@@ -28,7 +28,7 @@ Widget dividerMedium(String title) {
       Container(
         padding: const EdgeInsets.only(left: 20, top: 16, bottom: 20),
         child: Align(
-          alignment: AlignmentDirectional.centerEnd,
+          alignment: AlignmentDirectional.centerStart,
           child: Text(
             title,
             style: myFontTitleMedium,

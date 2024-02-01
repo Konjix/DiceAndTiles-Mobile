@@ -49,8 +49,8 @@ class ProductDetails {
       image3: parsedJson['image3'],
       image4: parsedJson['image4'],
       image5: parsedJson['image5'],
-      maxPlayers: parsedJson['maxPlayers'],
-      minPlayers: parsedJson['minPlayers'],
+      maxPlayers: parsedJson['max_players'],
+      minPlayers: parsedJson['min_players'],
     );
   }
 }
